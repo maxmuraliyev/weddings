@@ -1,0 +1,244 @@
+:root {
+    --bg-light: #f9f9f9;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555555;
+    --border-color: #e0e0e0;
+    --accent: #000000;
+    --font-main: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.5rem; }
+h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+
+.text-center { text-align: center; }
+.section-padding { padding: 80px 5%; }
+
+/* Buttons */
+.btn-primary {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 400;
+    border: 1px solid var(--accent);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: var(--accent);
+}
+
+.btn-outline {
+    display: inline-block;
+    padding: 10px 20px;
+    background: transparent;
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.btn-outline:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    border-bottom: 1px solid var(--border-color);
+    background: #fff;
+}
+
+.logo {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--text-primary);
+}
+
+.lang-switcher {
+    display: flex;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.lang-switcher button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+.lang-switcher button.active {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Hero */
+.hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 5%;
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.hero-content p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+/* Services */
+.section-title {
+    margin-bottom: 50px;
+}
+
+.section-title p {
+    color: var(--text-secondary);
+}
+
+.service-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.card {
+    padding: 30px;
+    background: #fff;
+    border: 1px solid var(--border-color);
+}
+
+.card h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-top: 10px;
+}
+
+/* Portfolio */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.portfolio-card {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    text-align: left;
+}
+
+.portfolio-card p {
+    color: var(--text-secondary);
+    margin: 10px 0 20px;
+    font-size: 0.95rem;
+}
+
+/* Contact */
+.contact-container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.contact-details {
+    list-style: none;
+    margin-top: 30px;
+    text-align: left;
+    display: inline-block;
+}
+
+.contact-details li {
+    margin-bottom: 15px;
+    color: var(--text-secondary);
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .nav-right {
+        gap: 20px;
+    }
+    .nav-links {
+        display: none;
+    }
+}
