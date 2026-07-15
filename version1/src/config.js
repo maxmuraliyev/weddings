@@ -1,0 +1,19 @@
+export const config = {
+  couple: {
+    groom: "Temurbek",
+    bride: "Nodirabegim"
+  },
+  weddingDate: "2026-12-05T18:00:00+05:00", // Format: YYYY-MM-DDTHH:mm:ss+TZ
+  venue: {
+    name: "\"Rohat\" tantanalar saroyi",
+    time: "18:00",
+    address: "Chilonzor tumani, Arnasoy ko'chasi 7/2.",
+    yandexMapLink: "https://yandex.uz/maps/10335/tashkent/?ll=69.232838%2C41.284550&mode=poi&poi%5Bpoint%5D=69.232744%2C41.284614&poi%5Buri%5D=ymapsbm1%3A%2F%2Forg%3Foid%3D62049162798&z=20.92",
+    googleMapLink: "https://www.google.com/maps/place/ROHAT/@41.2847992,69.2327435,19.76z/data=!4m14!1m7!3m6!1s0x38ae8b2ee13c5055:0x311346ff3ff1d778!2sROHAT!8m2!3d41.284891!4d69.2329122!16s%2Fg%2F11rfrdnyds!3m5!1s0x38ae8b2ee13c5055:0x311346ff3ff1d778!8m2!3d41.284891!4d69.2329122!16s%2Fg%2F11rfrdnyds?entry=ttu"
+  },
+  gift: {
+    recipientName: "Temurbek",
+    cardNumber: "8600 0000 0000 0000",
+    cardNumberValue: "8600000000000000" // Without spaces for copying
+  }
+};
