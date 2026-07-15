@@ -108,17 +108,29 @@
       </div>
       <div class="details-grid">
         <div class="detail-card">
-          <span class="detail-icon">📅</span>
+          <span class="detail-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </span>
           <span class="detail-label" data-i18n="details.date.label">Sana</span>
           <div class="detail-value" data-i18n="details.date.val">29 Iyul<br/>2026</div>
         </div>
         <div class="detail-card">
-          <span class="detail-icon">🕔</span>
+          <span class="detail-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </span>
           <span class="detail-label" data-i18n="details.time.label">Soat</span>
           <div class="detail-value">17:00</div>
         </div>
         <div class="detail-card">
-          <span class="detail-icon">📍</span>
+          <span class="detail-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </span>
           <span class="detail-label" data-i18n="details.venue.label">Manzil</span>
           <div class="detail-value" data-i18n="details.venue.val">"Afsona"<br/>To'yxonasi</div>
         </div>
@@ -200,7 +212,11 @@
       </p>
       <div class="map-frame">
         <div class="map-placeholder" onclick="window.open('https://maps.app.goo.gl/3BAfev1TdCSprbfm9','_blank')">
-          <div class="map-pin">📍</div>
+          <div class="map-pin">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:8px">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
           <div class="map-name" data-i18n="map.name">"Afsona" To'yxonasi</div>
           <div class="map-addr-small" data-i18n="map.city">Angren, Toshkent</div>
           <button class="map-btn" data-i18n="map.btn">Xaritada ko'rish →</button>
@@ -267,24 +283,33 @@
       </div>
     </section>
 
-    <!-- ══ INFO STRIP ══ -->
-    <div class="info-strip reveal">
-      <div class="info-cards-grid">
-        <div class="info-card">
-          <div class="info-icon">🌸</div>
-          <div class="info-card-title" data-i18n="info.dress.title">Kiyinish tartibi</div>
-          <div class="info-card-desc" data-i18n="info.dress.desc">Rasmiy kiyim<br/><em style="font-size:13px;color:var(--rose);">Oq, zangori, pushti</em></div>
+    <!-- ══ TO'YONA CARD ══ -->
+    <div class="toyona-section reveal">
+      <div class="toyona-card">
+        <h2 class="toyona-title">TO'YONA</h2>
+        <p class="toyona-desc" data-i18n="toyona.desc">
+          Agar istasangiz, to'yonani kuyov kartasiga yuborishingiz mumkin.
+        </p>
+        
+        <div class="credit-card">
+          <div class="cc-label" data-i18n="toyona.card.label">KARTA RAQAMI</div>
+          <div class="cc-number" id="cc-number">8600 0000 0000 0000</div>
+          
+          <div class="cc-label" data-i18n="toyona.receiver.label">QABUL QILUVCHI</div>
+          <div class="cc-name" data-i18n="toyona.receiver.name">Azizbek</div>
+          
+          <!-- Decorative circles mimicking the screenshot -->
+          <div class="cc-decor cc-circle-1"></div>
+          <div class="cc-decor cc-circle-2"></div>
         </div>
-        <div class="info-card">
-          <div class="info-icon">🎁</div>
-          <div class="info-card-title" data-i18n="info.gift.title">To'yona</div>
-          <div class="info-card-desc" data-i18n="info.gift.desc">Eng yaxshi sovg'a — sizning tashrif buyurishingiz. Pullik sovg'a ham qabul qilinadi.</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🚗</div>
-          <div class="info-card-title" data-i18n="info.park.title">To'xtash joyi</div>
-          <div class="info-card-desc" data-i18n="info.park.desc">To'yxona oldida bepul avtoturargoh mavjud. Valet xizmati ko'rsatiladi.</div>
-        </div>
+        
+        <button class="copy-btn" onclick="copyCardNumber()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span id="copy-btn-text" data-i18n="toyona.copy">Raqamni nusxalash</span>
+        </button>
       </div>
     </div>
 
@@ -297,7 +322,11 @@
         Har bir go'zal lahzani birga abadiylashtiring. Rasmlaringizni Telegram bot orqali yuboring — barchasini saqlaymiz.
       </p>
       <div class="photo-bot-card">
-        <div class="photo-bot-icon">📸</div>
+        <div class="photo-bot-icon">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:12px">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle>
+          </svg>
+        </div>
         <p class="photo-bot-title" data-i18n="photo.bot.title">Telegram orqali rasm yuboring</p>
         <p class="photo-bot-desc" data-i18n="photo.bot.desc">Quyidagi tugmani bosib, botimizga o'ting va rasmlaringizni yuboring. Barchasini avtomatik olamiz!</p>
         <a href="https://t.me/" target="_blank" class="tg-bot-btn">
@@ -316,7 +345,8 @@
       <p class="footer-quote" data-i18n="footer.quote">«Va U ular orasiga mehr va rahm qo'ydi.» — Quron 30:21</p>
       <p class="footer-date">29 · 07 · 2026</p>
     </footer>
-
+    <!-- Background Music -->
+    <audio id="bg-music" autoplay loop src="music.mp3" style="display:none;"></audio>
     <script src="script.js"></script>
   </body>
 </html>

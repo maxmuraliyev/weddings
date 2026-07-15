@@ -73,6 +73,12 @@ const T = {
     'info.park.title':  "To'xtash joyi",
     'info.park.desc':   "To'yxona oldida bepul avtoturargoh mavjud. Valet xizmati ko'rsatiladi.",
 
+    'toyona.desc': "Agar istasangiz, to'yonani kuyov kartasiga yuborishingiz mumkin.",
+    'toyona.card.label': "KARTA RAQAMI",
+    'toyona.receiver.label': "QABUL QILUVCHI",
+    'toyona.receiver.name': "Azizbek",
+    'toyona.copy': "Raqamni nusxalash",
+
     'photo.tag':       "Xotiralar",
     'photo.title':     "Rasmlaringizni ulashing",
     'photo.desc':      "Har bir go'zal lahzani birga abadiylashtiring. Rasmlaringizni Telegram bot orqali yuboring — barchasini saqlaymiz.",
@@ -148,6 +154,12 @@ const T = {
     'info.park.title':  "Парковка",
     'info.park.desc':   "Бесплатная парковка у банкетного зала. Предусмотрен услуга парковщика.",
 
+    'toyona.desc': "Если желаете, можете отправить подарок (туёна) на карту жениха.",
+    'toyona.card.label': "НОМЕР КАРТЫ",
+    'toyona.receiver.label': "ПОЛУЧАТЕЛЬ",
+    'toyona.receiver.name': "Азизбек",
+    'toyona.copy': "Скопировать номер",
+
     'photo.tag':       "Воспоминания",
     'photo.title':     "Поделитесь фото",
     'photo.desc':      "Запечатлеем каждый прекрасный момент вместе. Отправляйте фото через Telegram-бот — сохраним их все.",
@@ -217,171 +229,30 @@ const revealObserver = new IntersectionObserver(
 );
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// ─── MUSIC ENGINE ────────────────────────────
-// Romantic waltz piano melody using Web Audio API
-// Inspired by classic Central Asian wedding songs — no copyrighted material
-
-let audioCtx    = null;
-let masterGain  = null;
+// ─── MUSIC ENGINE (HTML5 Audio) ──────────────
+const bgMusic = document.getElementById('bg-music');
 let musicPlaying = false;
-let melodyTimeout = null;
-
-// Note frequencies (Hz)
-const NOTE = {
-  C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00, A4:440.00, B4:493.88,
-  C5:523.25, D5:587.33, E5:659.25, F5:698.46, G5:783.99, A5:880.00, B5:987.77,
-  C6:1046.50,
-};
-
-// Waltz melody in C major — 3/4 time, 80 BPM → beat = 0.75s
-// [frequency | null=rest, duration_in_beats]
-const MELODY = [
-  // Phrase A
-  [NOTE.E5, 1.0], [NOTE.G5, 0.5], [NOTE.A5, 0.5],
-  [NOTE.G5, 0.5], [NOTE.E5, 0.5], [NOTE.C5, 1.0],
-  [NOTE.D5, 0.5], [NOTE.F5, 0.5], [NOTE.A5, 1.0],
-  [NOTE.G5, 1.5], [null,    1.5],
-
-  // Phrase B
-  [NOTE.C5, 1.0], [NOTE.E5, 0.5], [NOTE.G5, 0.5],
-  [NOTE.F5, 0.5], [NOTE.D5, 0.5], [NOTE.B4, 1.0],
-  [NOTE.C5, 0.5], [NOTE.E5, 0.5], [NOTE.G5, 1.0],
-  [NOTE.C5, 1.5], [null,    1.5],
-
-  // Phrase C (lifting)
-  [NOTE.A5, 1.0], [NOTE.G5, 0.5], [NOTE.F5, 0.5],
-  [NOTE.E5, 1.0], [NOTE.D5, 1.0],
-  [NOTE.C5, 0.5], [NOTE.E5, 0.5], [NOTE.G5, 0.5], [NOTE.C6, 0.5],
-  [NOTE.B5, 1.5], [null,    0.5],
-
-  // Phrase D (resolve)
-  [NOTE.G5, 1.0], [NOTE.E5, 0.5], [NOTE.D5, 0.5],
-  [NOTE.C5, 1.0], [NOTE.E5, 0.5], [NOTE.G5, 0.5],
-  [NOTE.A5, 0.5], [NOTE.G5, 0.5], [NOTE.F5, 0.5], [NOTE.E5, 0.5],
-  [NOTE.C5, 1.5], [null,    1.5],
-];
-
-const BEAT = 0.75; // seconds per beat at 80 BPM
-
-// Play a single piano-like note
-function playNote(ctx, dest, freq, startTime, durBeats, vol) {
-  if (!freq) return; // rest
-
-  const dur = durBeats * BEAT;
-
-  // Piano timbre: fundamental + harmonics
-  const envGain = ctx.createGain();
-  envGain.connect(dest);
-
-  const harmonics = [
-    { freq: freq,      gain: 1.00 },
-    { freq: freq * 2,  gain: 0.28 },
-    { freq: freq * 3,  gain: 0.10 },
-    { freq: freq * 4,  gain: 0.04 },
-  ];
-
-  harmonics.forEach(({ freq: f, gain: g }) => {
-    const osc  = ctx.createOscillator();
-    const gn   = ctx.createGain();
-    osc.type   = 'sine';
-    osc.frequency.value = f;
-    gn.gain.value = g * vol;
-    osc.connect(gn);
-    gn.connect(envGain);
-    osc.start(startTime);
-    osc.stop(startTime + dur + 0.08);
-  });
-
-  // ADSR envelope
-  const peakVol = vol * 0.9;
-  envGain.gain.setValueAtTime(0,        startTime);
-  envGain.gain.linearRampToValueAtTime(peakVol, startTime + 0.012);        // attack
-  envGain.gain.exponentialRampToValueAtTime(peakVol * 0.65, startTime + dur * 0.25); // decay
-  envGain.gain.setValueAtTime(peakVol * 0.65, startTime + dur * 0.8);     // sustain
-  envGain.gain.exponentialRampToValueAtTime(0.0001, startTime + dur + 0.06); // release
-}
-
-// Play accompaniment chord (bass + mid)
-function playChord(ctx, dest, rootFreq, startTime, durBeats) {
-  const dur     = durBeats * BEAT;
-  const chordGain = ctx.createGain();
-  chordGain.gain.value = 0.018;
-  chordGain.connect(dest);
-
-  [rootFreq / 2, rootFreq, rootFreq * 1.5].forEach(f => {
-    const osc = ctx.createOscillator();
-    osc.type  = 'sine';
-    osc.frequency.value = f;
-    osc.connect(chordGain);
-    osc.start(startTime);
-    osc.stop(startTime + dur);
-  });
-}
-
-// Schedule the full melody and loop it
-function scheduleMelody(ctx, dest) {
-  let t = ctx.currentTime + 0.1;
-
-  MELODY.forEach(([freq, beats]) => {
-    playNote(ctx, dest, freq, t, beats, 0.07);
-    // Simple bass on beat 1 of each bar
-    if (freq && beats >= 1.0) playChord(ctx, dest, NOTE.C4, t, beats * 0.5);
-    t += beats * BEAT;
-  });
-
-  // Loop: schedule next round ~0.3s before this one ends
-  const totalDur = MELODY.reduce((s, [, b]) => s + b * BEAT, 0);
-  melodyTimeout = setTimeout(() => {
-    if (musicPlaying) scheduleMelody(ctx, dest);
-  }, (totalDur - 0.3) * 1000);
-}
 
 function toggleMusic() {
   const btn       = document.getElementById('musicBtn');
   const iconPlay  = document.getElementById('music-icon-play');
   const iconPause = document.getElementById('music-icon-pause');
 
-  // First click: create AudioContext inside user gesture
-  if (!audioCtx) {
-    audioCtx   = new (window.AudioContext || window.webkitAudioContext)();
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = 1;
-
-    // Soft reverb via delay + feedback
-    const delay     = audioCtx.createDelay(0.5);
-    const feedback  = audioCtx.createGain();
-    const wetGain   = audioCtx.createGain();
-    delay.delayTime.value   = 0.28;
-    feedback.gain.value     = 0.25;
-    wetGain.gain.value      = 0.35;
-    masterGain.connect(delay);
-    delay.connect(feedback);
-    feedback.connect(delay);
-    delay.connect(wetGain);
-    wetGain.connect(audioCtx.destination);
-    masterGain.connect(audioCtx.destination);
-
-    scheduleMelody(audioCtx, masterGain);
-    musicPlaying = true;
-    btn.classList.add('playing');
-    iconPlay.style.display  = 'none';
-    iconPause.style.display = '';
-    return;
-  }
+  if (!bgMusic) return;
 
   if (musicPlaying) {
-    audioCtx.suspend();
-    clearTimeout(melodyTimeout);
+    bgMusic.pause();
     btn.classList.remove('playing');
     iconPlay.style.display  = '';
     iconPause.style.display = 'none';
     musicPlaying = false;
   } else {
-    audioCtx.resume().then(() => scheduleMelody(audioCtx, masterGain));
-    btn.classList.add('playing');
-    iconPlay.style.display  = 'none';
-    iconPause.style.display = '';
-    musicPlaying = true;
+    bgMusic.play().then(() => {
+      btn.classList.add('playing');
+      iconPlay.style.display  = 'none';
+      iconPause.style.display = '';
+      musicPlaying = true;
+    }).catch(err => console.log("Autoplay blocked:", err));
   }
 }
 
@@ -509,6 +380,45 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// ─── INIT ────────────────────────────────────
+// ─── TO'YONA CARD ACTIONS ────────────────────
+function copyCardNumber() {
+  const numberText = document.getElementById('cc-number').textContent.replace(/\s+/g, '');
+  navigator.clipboard.writeText(numberText).then(() => {
+    const btnText = document.getElementById('copy-btn-text');
+    const originalText = btnText.textContent;
+    btnText.textContent = currentLang === 'uz' ? "Nusxalandi!" : "Скопировано!";
+    setTimeout(() => {
+      btnText.textContent = originalText;
+    }, 2000);
+  });
+}
+
+// ─── INIT & AUTOPLAY ─────────────────────────
 // Set default language on load (UZ)
 setLang('uz');
+
+// Attempt to autoplay immediately
+function tryAutoplay() {
+  if (!bgMusic || musicPlaying) return;
+  bgMusic.play().then(() => {
+    musicPlaying = true;
+    document.getElementById('musicBtn').classList.add('playing');
+    document.getElementById('music-icon-play').style.display = 'none';
+    document.getElementById('music-icon-pause').style.display = '';
+  }).catch((e) => {
+    console.log("Browser blocked immediate autoplay. Waiting for user interaction...");
+    // Fallback: wait for the first click/scroll/touch
+    const startMusic = () => {
+      if (!musicPlaying) toggleMusic();
+      document.removeEventListener('click', startMusic);
+      document.removeEventListener('scroll', startMusic);
+      document.removeEventListener('touchstart', startMusic);
+    };
+    document.addEventListener('click', startMusic);
+    document.addEventListener('scroll', startMusic, { passive: true });
+    document.addEventListener('touchstart', startMusic, { passive: true });
+  });
+}
+
+// Try autoplay as soon as possible
+tryAutoplay();
