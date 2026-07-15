@@ -57,6 +57,9 @@ const T = {
     'rsvp.msg.ph':    "Tabrik xabaringizni qoldiring...",
     'rsvp.btn':       "Yuborish",
 
+    'intro.text': "Taklifnomani ochish uchun bosing",
+    'intro.btn': "Ochish",
+
     'rsvp.ok.yes':    "Rahmat, {name}! Javobingiz qabul qilindi. Sizni ko'rishdan xursand bo'lamiz!",
     'rsvp.ok.no':     "Rahmat, {name}! Javobingiz qabul qilindi. Sog'-salomat bo'ling!",
     'rsvp.err.name':  "✦ Iltimos, ismingizni kiriting.",
@@ -90,6 +93,9 @@ const T = {
   },
 
   ru: {
+    'intro.text': "Нажмите, чтобы открыть приглашение",
+    'intro.btn': "Открыть",
+
     'hero.tag':            "Свадебное Приглашение",
     'hero.month':          "Июль",
     'hero.year':           "2026 · Среда",
@@ -397,7 +403,19 @@ function copyCardNumber() {
 // Set default language on load (UZ)
 setLang('uz');
 
-// Attempt to autoplay immediately
+// Start the invitation when user clicks "Open"
+function openInvitation() {
+  const overlay = document.getElementById('intro-overlay');
+  overlay.classList.add('hidden');
+  document.body.style.overflow = ''; // Restore scrolling
+  
+  // Now we have explicit user interaction, so audio will play 100% of the time
+  if (!musicPlaying) {
+    toggleMusic();
+  }
+}
+
+// Still attempt to autoplay immediately for browsers that allow it
 function tryAutoplay() {
   if (!bgMusic || musicPlaying) return;
   bgMusic.play().then(() => {
@@ -406,19 +424,7 @@ function tryAutoplay() {
     document.getElementById('music-icon-play').style.display = 'none';
     document.getElementById('music-icon-pause').style.display = '';
   }).catch((e) => {
-    console.log("Browser blocked immediate autoplay. Waiting for user interaction...");
-    // Fallback: wait for the first click/scroll/touch
-    const startMusic = () => {
-      if (!musicPlaying) toggleMusic();
-      document.removeEventListener('click', startMusic);
-      document.removeEventListener('scroll', startMusic);
-      document.removeEventListener('touchstart', startMusic);
-    };
-    document.addEventListener('click', startMusic);
-    document.addEventListener('scroll', startMusic, { passive: true });
-    document.addEventListener('touchstart', startMusic, { passive: true });
+    console.log("Browser blocked immediate autoplay.");
   });
 }
-
-// Try autoplay as soon as possible
 tryAutoplay();

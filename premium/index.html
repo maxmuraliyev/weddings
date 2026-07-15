@@ -8,7 +8,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body style="overflow: hidden;">
+
+    <!-- ══ INTRO OVERLAY ══ -->
+    <div id="intro-overlay" class="intro-overlay">
+      <div class="intro-content">
+        <h2 class="intro-names">Asrorbek <span style="color:var(--rose)">&amp;</span> Sayyoraxon</h2>
+        <p class="intro-text" data-i18n="intro.text">Taklifnomani ochish uchun bosing</p>
+        <button class="intro-btn" onclick="openInvitation()" data-i18n="intro.btn">Ochish</button>
+      </div>
+    </div>
 
     <!-- Petals -->
     <div id="petals-container"></div>
