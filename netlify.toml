@@ -1,8 +1,0 @@
-[build]
-  command = "cd version1 && npm install && npm run build"
-  publish = "."
-
-[[redirects]]
-  from = "/version1/*"
-  to = "/version1/dist/:splat"
-  status = 200
