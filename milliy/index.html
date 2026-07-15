@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aziz va Zulfiya - O'zbek To'yi</title>
+  <meta name="description" content="Aziz va Zulfiyaning milliy an'analarga boy to'y taklifnomasi.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Language Switcher -->
+  <nav class="lang-switcher" aria-label="Language">
+    <button class="lang-btn active" data-lang="uz" type="button">UZ</button>
+    <span class="lang-divider">|</span>
+    <button class="lang-btn" data-lang="ru" type="button">RU</button>
+  </nav>
+
+  <!-- Music Button -->
+  <button class="music-btn" id="musicBtn" aria-label="Musiqani yoqish">
+    <svg viewBox="0 0 24 24" fill="none" class="music-icon">
+      <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+        stroke-linejoin="round" />
+      <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5" />
+      <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5" />
+    </svg>
+    <div class="music-waves">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </button>
+
+  <!-- ==============================================
+       INTRO: TAKLIFNOMA (MANDALA SEAL)
+       ============================================== -->
+  <section class="intro-section" id="introSection">
+    <div class="intro-overlay"></div>
+    <div class="intro-content">
+      <div class="intro-titles">
+        <h2 class="fatiha-title" data-uz="Taklifnoma" data-ru="Приглашение">Taklifnoma</h2>
+        <p class="fatiha-desc" data-uz="Hayotimizdagi eng muhim kunga marhamat"
+          data-ru="Добро пожаловать на самый важный день в нашей жизни">Hayotimizdagi eng muhim kunga marhamat</p>
+      </div>
+
+      <div class="mandala-seal-container">
+        <!-- The text behind the mandala -->
+        <p class="non-hidden-text" data-uz="Bismillahir Rohmanir Rohiym"
+          data-ru="Во имя Аллаха, Милостивого, Милосердного">Bismillahir Rohmanir Rohiym</p>
+
+        <!-- The Mandala -->
+        <div class="mandala-wrapper" id="mandalaSeal">
+          <img src="assets/mandala.png" alt="Golden Mandala" class="mandala-img" />
+        </div>
+      </div>
+
+      <button class="break-non-btn" id="openInviteBtn">
+        <span data-uz="Ochish" data-ru="Открыть">Ochish</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       MAIN INVITATION
+       ============================================== -->
+  <main class="invitation" id="invitation">
+
+    <!-- HERO SECTION (ATLAS THEME) -->
+    <section class="hero-section">
+      <div class="atlas-bg"></div>
+
+      <div class="hero-content reveal">
+        <div class="bismillah-ornament">
+          <span class="arabic-bismillah">&#65021;</span>
+        </div>
+
+        <h1 class="couple-names">
+          <span class="name">Aziz</span>
+          <span class="and-symbol">&</span>
+          <span class="name">Zulfiya</span>
+        </h1>
+
+        <p class="hero-subtitle" data-uz="Nikoh to'yimizga marhamat" data-ru="Добро пожаловать на нашу свадьбу">
+          Nikoh to'yimizga marhamat
+        </p>
+
+        <div class="couple-illustration">
+          <img src="assets/couple_trad.png" alt="O'zbek Milliy Kelin-Kuyov" />
+        </div>
+      </div>
+    </section>
+
+    <!-- INVITATION LETTER -->
+    <section class="letter-section reveal">
+      <div class="letter-card">
+        <h2 class="letter-greeting" data-uz="Aziz va Qadrdon Mehmon!" data-ru="Уважаемый и дорогой гость!">Aziz va
+          Qadrdon Mehmon!</h2>
+        <p class="letter-text">
+          <span
+            data-uz="Ota-bobolarimizning qadimiy an'analarini davom ettirgan holda, hayotimizning eng quvonchli kunini siz bilan baham ko'rmoqchimiz."
+            data-ru="Продолжая древние традиции наших предков, мы хотим разделить с вами самый радостный день нашей жизни.">Ota-bobolarimizning
+            qadimiy an'analarini davom ettirgan holda, hayotimizning eng quvonchli kunini siz bilan baham
+            ko'rmoqchimiz.</span><br><br>
+          <span
+            data-uz="Sizni fayzli xonadonimizda va to'kin dasturxonimiz atrofida aziz mehmonimiz bo'lishingizni intizorlik bilan kutamiz."
+            data-ru="С нетерпением ждем вас в качестве нашего дорогого гостя в нашем благодатном доме и за богатым дастарханом.">Sizni
+            fayzli xonadonimizda va to'kin dasturxonimiz atrofida aziz mehmonimiz bo'lishingizni intizorlik bilan
+            kutamiz.</span>
+        </p>
+        <p class="letter-signature" data-uz="Hurmat bilan:<br>Aziz & Zulfiya oilalari"
+          data-ru="С уважением:<br>Семьи Азиза и Зульфии">
+          Hurmat bilan:<br>Aziz & Zulfiya oilalari
+        </p>
+      </div>
+    </section>
+
+    <!-- CULTURAL ITINERARY -->
+    <section class="itinerary-section">
+
+      <!-- Stage 1: Nahorgi Osh -->
+      <div class="event-card reveal">
+        <h3 class="event-title" data-uz="Nahorgi Osh" data-ru="Утренний Плов">Nahorgi Osh</h3>
+        <p class="event-desc" data-uz="Erta tongda elga osh berish marosimi"
+          data-ru="Церемония угощения пловом на рассвете">Erta tongda elga osh berish marosimi</p>
+        <div class="event-details">
+          <div class="detail-row">
+            <span class="detail-label" data-uz="Vaqt:" data-ru="Время:">Vaqt:</span>
+            <span class="detail-value">06:00 - 08:00</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label" data-uz="Sana:" data-ru="Дата:">Sana:</span>
+            <span class="detail-value">25 Avgust, 2026</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label" data-uz="Manzil:" data-ru="Место:">Manzil:</span>
+            <span class="detail-value">Navro'z To'yxonasi, Toshkent</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2: Nikoh To'y -->
+      <div class="event-card highlight reveal">
+        <h3 class="event-title" data-uz="Nikoh To'yi" data-ru="Свадебное Торжество (Никах)">Nikoh To'yi</h3>
+        <p class="event-desc" data-uz="Katta to'y tantanasi va oqshomi" data-ru="Главное свадебное торжество и вечер">
+          Katta to'y tantanasi va oqshomi</p>
+        <div class="event-details">
+          <div class="detail-row">
+            <span class="detail-label" data-uz="Vaqt:" data-ru="Время:">Vaqt:</span>
+            <span class="detail-value">18:00</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label" data-uz="Sana:" data-ru="Дата:">Sana:</span>
+            <span class="detail-value">25 Avgust, 2026</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label" data-uz="Manzil:" data-ru="Место:">Manzil:</span>
+            <span class="detail-value">Humo Arena restorani, Toshkent</span>
+          </div>
+        </div>
+        <a href="https://maps.google.com" target="_blank" class="map-link">
+          <span data-uz="Xaritada ko'rish" data-ru="Посмотреть на карте">Xaritada ko'rish</span>
+        </a>
+      </div>
+
+      <!-- Stage 3: Kelin Salom -->
+      <div class="event-card kelin-salom-card reveal" id="kelinSalomCard">
+        <div class="petals-container" id="petalsContainer"></div>
+        <h3 class="event-title" data-uz="Kelin Salom" data-ru="Келин Салом (Приветствие невесты)">Kelin Salom</h3>
+        <p class="event-desc" data-uz="Yangi kelinning kuyov oilasi va qarindoshlariga ta'zimi"
+          data-ru="Церемония поклона новой невестки семье и родственникам жениха">Yangi kelinning kuyov oilasi va
+          qarindoshlariga ta'zimi</p>
+        <div class="event-details">
+          <div class="detail-row">
+            <span class="detail-label" data-uz="Vaqt:" data-ru="Время:">Vaqt:</span>
+            <span class="detail-value">10:00</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label" data-uz="Sana:" data-ru="Дата:">Sana:</span>
+            <span class="detail-value">26 Avgust, 2026</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label" data-uz="Manzil:" data-ru="Место:">Manzil:</span>
+            <span class="detail-value" data-uz="Kuyov xonadoni" data-ru="Дом жениха">Kuyov xonadoni</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- COUNTDOWN -->
+    <section class="countdown-section reveal">
+      <h2 class="countdown-title" data-uz="Katta To'ygacha qoldi:" data-ru="До торжества осталось:">Katta To'ygacha
+        qoldi:</h2>
+      <div class="timer">
+        <div class="timer-box"><span id="days">00</span>
+          <p data-uz="Kun" data-ru="Дней">Kun</p>
+        </div>
+        <div class="timer-box"><span id="hours">00</span>
+          <p data-uz="Soat" data-ru="Часов">Soat</p>
+        </div>
+        <div class="timer-box"><span id="mins">00</span>
+          <p data-uz="Daqiqa" data-ru="Минут">Daqiqa</p>
+        </div>
+        <div class="timer-box"><span id="secs">00</span>
+          <p data-uz="Soniya" data-ru="Секунд">Soniya</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p data-uz="Murojaat uchun: +998772243141" data-ru="Для связи: +998772243141">Murojaat uchun: +998772243141</p>
+    </footer>
+
+  </main>
+
+  <audio id="bgMusic" src="assets/uzbek_music.mp3" preload="auto" loop></audio>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
