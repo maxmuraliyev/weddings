@@ -171,4 +171,29 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
+  // ---------------------------------------------------------
+  // 6. COPY TO'YONA CARD NUMBER
+  // ---------------------------------------------------------
+  const copyBtn = document.getElementById('copyBtn');
+  const cardNumber = document.getElementById('cardNumber');
+
+  if (copyBtn && cardNumber) {
+    copyBtn.addEventListener('click', () => {
+      // Remove spaces for copying
+      const numToCopy = cardNumber.innerText.replace(/\s+/g, '');
+      
+      navigator.clipboard.writeText(numToCopy).then(() => {
+        const originalHtml = copyBtn.innerHTML;
+        copyBtn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="copy-icon"><polyline points="20 6 9 17 4 12"></polyline></svg> <span data-uz="Nusxa olindi!" data-ru="Скопировано!">Nusxa olindi!</span>`;
+        
+        setTimeout(() => {
+          copyBtn.innerHTML = originalHtml;
+          updateLanguage(); // re-apply language if needed, but originalHtml is fine
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+    });
+  }
+
 });
