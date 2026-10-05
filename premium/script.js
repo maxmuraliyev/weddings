@@ -102,7 +102,13 @@ const T = {
     'info.park.title':     "To'xtash joyi",
     'info.park.desc':      "To'yxona oldida bepul avtoturargoh mavjud. Valet xizmati ko'rsatiladi.",
 
-        'gallery.tag':         "Fotogalereya",
+            'toyona.title':        "TO'YONA",
+    'toyona.desc':         "Agar istasangiz, to'yonani kelin kartasiga yuborishingiz mumkin.",
+    'toyona.card.label':   "KARTA RAQAMI",
+    'toyona.receiver.label': "QABUL QILUVCHI",
+    'toyona.receiver.name': "Anorboyeva Marjona",
+    'toyona.copy':         "Raqamni nusxalash",
+    'gallery.tag':         "Fotogalereya",
     'gallery.title':       "Bizning Baxtli Lahzalarimiz",
     'gallery.desc':        "Birga yozilayotgan go'zal muhabbat qissasi",
     'gallery.cap1':        "Cheksiz Muhabbat",
@@ -202,7 +208,13 @@ const T = {
     'info.park.title':     "Парковка",
     'info.park.desc':      "Бесплатная парковка у банкетного зала. Предусмотрен услуга парковщика.",
 
-        'gallery.tag':         "Фотогалерея",
+            'toyona.title':        "ТОЁНА",
+    'toyona.desc':         "Если желаете, можете отправить подарок (туёна) на карту невесты.",
+    'toyona.card.label':   "НОМЕР КАРТЫ",
+    'toyona.receiver.label': "ПОЛУЧАТЕЛЬ",
+    'toyona.receiver.name': "Анорбоева Маржона",
+    'toyona.copy':         "Скопировать номер",
+    'gallery.tag':         "Фотогалерея",
     'gallery.title':       "Наши Счастливые Мгновения",
     'gallery.desc':        "Прекрасная история любви, которую мы пишем вместе",
     'gallery.cap1':        "Бесконечная Любовь",
@@ -450,6 +462,24 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (t) t.scrollIntoView({ behavior: 'smooth' });
   });
 });
+
+
+// ─── TO'YONA CARD ACTIONS ────────────────────
+function copyCardNumber() {
+  const numEl = document.getElementById('cc-number');
+  if (!numEl) return;
+  const numberText = numEl.textContent.replace(/\s+/g, '');
+  navigator.clipboard.writeText(numberText).then(() => {
+    const btnText = document.getElementById('copy-btn-text');
+    if (btnText) {
+      const originalText = btnText.textContent;
+      btnText.textContent = currentLang === 'uz' ? "Nusxalandi!" : "Скопировано!";
+      setTimeout(() => {
+        btnText.textContent = originalText;
+      }, 2000);
+    }
+  });
+}
 
 // ─── LIGHTBOX MODAL ─────────────────────────
 function openLightbox(src) {
