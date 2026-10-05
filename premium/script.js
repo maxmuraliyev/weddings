@@ -1,179 +1,217 @@
 /* =============================================
    WEDDING INVITATION — script.js
-   Asrorbek & Sayyoraxon · 29.07.2026
+   Sanjar & Marjona · 16.10.2026 & 18.10.2026
    ============================================= */
 
-// ─── WEDDING DATE ────────────────────────────
-const WEDDING_DATE = new Date('2026-07-29T17:00:00');
+// ─── WEDDING DATES ───────────────────────────
+const DATES = {
+  qiz:   new Date('2026-10-16T17:00:00'),
+  nikoh: new Date('2026-10-18T17:00:00'),
+};
+
+// Target date for countdown (default: upcoming event)
+let currentCdTarget = (new Date() < DATES.qiz) ? 'qiz' : 'nikoh';
 
 // ─── TRANSLATIONS ────────────────────────────
 const T = {
   uz: {
     'hero.tag':            "Nikoh Taklifnomasi",
-    'hero.month':          "Iyul",
-    'hero.year':           "2026 · Chorshanba",
+    'hero.month':          "Oktyabr",
+    'hero.year':           "2026 · Qiz Bazmi & Nikoh Bazmi",
     'hero.scroll':         "Pastga",
 
-    'invite.tag':          "Aziz mehmonimiz",
-    'invite.title':        "Siz bizning baxtimizni ulashishingizni so'raymiz",
-    'invite.text':         "Qalbimiz to'la quvonch va minnatdorlik bilan, sizni muhabbatimiz bayramiga taklif etamiz. Bu baxtli kunda siz bilan birga bo'lish bizga katta sharaf.",
-    'invite.sign':         "— Asrorbek va Sayyoraxon oilalari",
+    'invite.tag':          "HURMATLI AZIZ MEHMONIMIZ!",
+    'invite.title':        "Sizni hayotimizdagi eng baxtiyor kun nikoh to'yimizga taklif etamiz",
+    'invite.text':         "Qalbimiz to'la quvonch va minnatdorlik bilan, sizni muhabbatimiz bayramiga taklif etamiz. Ushbu kechamizda sizni ko'rishdan mamnun bo'lamiz!",
+    'invite.sign':         "— Sanjar va Marjona oilalari",
 
     'details.tag':         "Kecha tafsilotlari",
-    'details.title':       "Nikoh Marosimi",
+    'details.title':       "To'y Marosimlari",
     'details.date.label':  "Sana",
-    'details.date.val':    "29 Iyul<br/>2026",
     'details.time.label':  "Soat",
     'details.venue.label': "Manzil",
-    'details.venue.val':   '"Afsona"<br/>To\'yxonasi',
 
-    'cd.label':  "To'yga qolgan vaqt",
-    'cd.days':   "Kun",
-    'cd.hours':  "Soat",
-    'cd.mins':   "Daqiqa",
-    'cd.secs':   "Soniya",
+    'event1.badge':        "QIZ BAZMI",
+    'event1.title':        "«OQ SAROY» To'yxonasi",
+    'event1.date':         "16 Oktyabr, 2026 (Juma)",
+    'event1.time':         "17:00",
+    'event1.venue':        "«OQ SAROY» To'yxonasi",
+    'event1.note':         "«Ushbu kechamizda sizni ko'rishdan mamnun bo'lamiz!»",
 
-    'story.tag':   "Sevgi Tariximiz",
-    'story.title': "Birga bosib o'tgan yo'llar",
-    'story.1':     "Birinchi uchrashuv — birinchi qarash, birinchi tabassum. Qalblarimiz bir-birini tanidi.",
-    'story.2':     "U tiz cho'kdi va hayotining eng muhim savolini berdi. Javob — «Ha!»",
-    'story.3':     "Bugun — eng baxtli kun. Ikkimiz bitta hayotni boshlaymiz.",
+    'event2.badge':        "NIKOH BAZMI",
+    'event2.title':        "«ANGREN LAND» To'yxonasi",
+    'event2.date':         "18 Oktyabr, 2026 (Yakshanba)",
+    'event2.time':         "17:00",
+    'event2.venue':        "«ANGREN LAND» To'yxonasi",
+    'event2.note':         "«Sizni baxt oqshomimizda kutib qolamiz!»",
 
-    'map.tag':   "Manzil",
-    'map.title': '"Afsona" To\'yxonasi',
-    'map.addr':  "Angren shahri, Toshkent viloyati",
-    'map.name':  '"Afsona" To\'yxonasi',
-    'map.city':  "Angren, Toshkent",
-    'map.btn':   "Xaritada ko'rish →",
+    'cd.label':            "To'yga qolgan vaqt",
+    'cd.label.qiz':        "Qiz bazmiga qolgan vaqt (16-Okt)",
+    'cd.label.nikoh':      "Nikoh bazmiga qolgan vaqt (18-Okt)",
+    'cd.tab.qiz':          "Qiz Bazmi (16-Okt)",
+    'cd.tab.nikoh':        "Nikoh Bazmi (18-Okt)",
+    'cd.days':             "Kun",
+    'cd.hours':            "Soat",
+    'cd.mins':             "Daqiqa",
+    'cd.secs':             "Soniya",
 
-    'rsvp.sub':       "Javobingiz bizga muhim",
-    'rsvp.deadline':  "Iltimos, 15 Iyul 2026 gacha javob bering",
-    'rsvp.name.ph':   "Ismingiz va familiyangiz",
-    'rsvp.phone.ph':  "Telefon raqamingiz",
-    'rsvp.guests':    "Mehmonlar soni",
-    'rsvp.attend.q':  "Tashrif buyurasizmi?",
-    'rsvp.yes':       "Ha, albatta kelaman",
-    'rsvp.no':        "Kela olmayman",
-    'rsvp.msg.ph':    "Tabrik xabaringizni qoldiring...",
-    'rsvp.btn':       "Yuborish",
+    'story.tag':           "Sevgi Tariximiz",
+    'story.title':         "Birga bosib o'tgan yo'llar",
+    'story.1':             "Birinchi uchrashuv — birinchi qarash, birinchi tabassum. Qalblarimiz bir-birini tanidi.",
+    'story.2':             "U tiz cho'kdi va hayotining eng muhim savolini berdi. Javob — «Ha!»",
+    'story.3':             "Bugun — eng baxtli kun. Sanjar va Marjona bitta yangi hayotni boshlaydi.",
 
-    'intro.text': "Taklifnomani ochish uchun bosing",
-    'intro.btn': "Ochish",
+    'map.tag':             "To'yxonalar manzili",
+    'map.title':           "To'yxonalarimiz Joylashuvi",
+    'map.desc':            "Qiz bazmi va Nikoh to'yimiz o'tkaziladigan to'yxonalar",
+    'map.btn':             "Xaritada ko'rish →",
+    'map.venue1.name':     "«OQ SAROY» To'yxonasi",
+    'map.venue1.sub':      "Angren shahri · 16 Oktyabr · 17:00",
+    'map.venue2.name':     "«ANGREN LAND» To'yxonasi",
+    'map.venue2.sub':      "Angren shahri · 18 Oktyabr · 17:00",
 
-    'rsvp.ok.yes':    "Rahmat, {name}! Javobingiz qabul qilindi. Sizni ko'rishdan xursand bo'lamiz!",
-    'rsvp.ok.no':     "Rahmat, {name}! Javobingiz qabul qilindi. Sog'-salomat bo'ling!",
-    'rsvp.err.name':  "✦ Iltimos, ismingizni kiriting.",
-    'rsvp.err.phone': "✦ Iltimos, telefon raqamingizni kiriting.",
-    'rsvp.loading':   "✦ Yuborilmoqda...",
+    'rsvp.sub':            "Javobingiz bizga muhim",
+    'rsvp.deadline':       "Iltimos, 10 Oktyabr 2026 gacha javob bering",
+    'rsvp.name.ph':        "Ismingiz va familiyangiz",
+    'rsvp.phone.ph':       "Telefon raqamingiz",
+    'rsvp.guests':         "Mehmonlar soni",
+    'rsvp.attend.q':       "Qaysi marosimga tashrif buyurasiz?",
+    'rsvp.both':           "Har ikkalasiga (16 & 18 Okt)",
+    'rsvp.nikoh':          "Nikoh bazmi (18-Okt)",
+    'rsvp.qiz':            "Qiz bazmi (16-Okt)",
+    'rsvp.no':             "Kela olmayman",
+    'rsvp.msg.ph':         "Tabrik xabaringizni qoldiring...",
+    'rsvp.btn':            "Yuborish",
 
-    'wishes.tag':   "Tabriklar",
-    'wishes.title': "Mehmonlarning tilaklari",
+    'intro.text':          "Taklifnomani ochish uchun bosing",
+    'intro.btn':           "Ochish",
 
-    'info.dress.title': "Kiyinish tartibi",
-    'info.dress.desc':  "Rasmiy kiyim<br/><em style=\"font-size:13px;color:var(--rose)\">Oq, zangori, pushti</em>",
-    'info.gift.title':  "To'yona",
-    'info.gift.desc':   "Eng yaxshi sovg'a — sizning tashrif buyurishingiz. Pullik sovg'a ham qabul qilinadi.",
-    'info.park.title':  "To'xtash joyi",
-    'info.park.desc':   "To'yxona oldida bepul avtoturargoh mavjud. Valet xizmati ko'rsatiladi.",
+    'rsvp.ok.yes':         "Rahmat, {name}! Javobingiz qabul qilindi. Sizni ko'rishdan xursand bo'lamiz!",
+    'rsvp.ok.no':          "Rahmat, {name}! Javobingiz qabul qilindi. Sog'-salomat bo'ling!",
+    'rsvp.err.name':       "✦ Iltimos, ismingizni kiriting.",
+    'rsvp.err.phone':      "✦ Iltimos, telefon raqamingizni kiriting.",
+    'rsvp.loading':        "✦ Yuborilmoqda...",
 
-    'toyona.desc': "Agar istasangiz, to'yonani kuyov kartasiga yuborishingiz mumkin.",
-    'toyona.card.label': "KARTA RAQAMI",
-    'toyona.receiver.label': "QABUL QILUVCHI",
-    'toyona.receiver.name': "Azizbek",
-    'toyona.copy': "Raqamni nusxalash",
+    'wishes.tag':          "Tabriklar",
+    'wishes.title':        "Mehmonlarning tilaklari",
 
-    'photo.tag':       "Xotiralar",
-    'photo.title':     "Rasmlaringizni ulashing",
-    'photo.desc':      "Har bir go'zal lahzani birga abadiylashtiring. Rasmlaringizni Telegram bot orqali yuboring — barchasini saqlaymiz.",
-    'photo.bot.title': "Telegram orqali rasm yuboring",
-    'photo.bot.desc':  "Quyidagi tugmani bosib, botimizga o'ting va rasmlaringizni yuboring.",
-    'photo.btn':       "Botga o'tish",
+    'info.dress.title':    "Kiyinish tartibi",
+    'info.dress.desc':     "Rasmiy kiyim<br/><em style=\"font-size:13px;color:var(--rose)\">Oq, zangori, pushti</em>",
+    'info.gift.title':     "To'yona",
+    'info.gift.desc':      "Eng yaxshi sovg'a — sizning tashrif buyurishingiz. Pullik sovg'a ham qabul qilinadi.",
+    'info.park.title':     "To'xtash joyi",
+    'info.park.desc':      "To'yxona oldida bepul avtoturargoh mavjud. Valet xizmati ko'rsatiladi.",
 
-    'footer.quote': "«Va U ular orasiga mehr va rahm qo'ydi.» — Quron 30:21",
+        'gallery.tag':         "Fotogalereya",
+    'gallery.title':       "Bizning Baxtli Lahzalarimiz",
+    'gallery.desc':        "Birga yozilayotgan go'zal muhabbat qissasi",
+    'gallery.cap1':        "Cheksiz Muhabbat",
+    'gallery.cap2':        "Baxt Oqshomi",
+    'gallery.cap3':        "Bir Umr Birga",
+    'gallery.cap4':        "Nikoh Muborak",
+    'gallery.hint':        "Kattalashtirish uchun bosing",
+
+    'footer.quote':        "«Va U ular orasiga mehr va rahm qo'ydi.» — Quron 30:21",
   },
 
   ru: {
-    'intro.text': "Нажмите, чтобы открыть приглашение",
-    'intro.btn': "Открыть",
+    'intro.text':          "Нажмите, чтобы открыть приглашение",
+    'intro.btn':           "Открыть",
 
     'hero.tag':            "Свадебное Приглашение",
-    'hero.month':          "Июль",
-    'hero.year':           "2026 · Среда",
+    'hero.month':          "Октябрь",
+    'hero.year':           "2026 · Кыз Базми & Никох",
     'hero.scroll':         "Листать",
 
-    'invite.tag':          "Дорогой гость",
-    'invite.title':        "Мы приглашаем вас разделить наше счастье",
-    'invite.text':         "С радостью и благодарностью в сердце приглашаем вас на торжество нашей любви. Ваше присутствие сделает этот день по-настоящему незабываемым.",
-    'invite.sign':         "— Семьи Асрорбека и Саёрахон",
+    'invite.tag':          "ДОРОГОЙ НАШ ГОСТЬ!",
+    'invite.title':        "Приглашаем вас на самый счастливый день в нашей жизни — день нашей свадьбы",
+    'invite.text':         "С радостью и благодарностью в сердце приглашаем вас на наше свадебное торжество. Будем искренне рады видеть вас на нашем празднике!",
+    'invite.sign':         "— Семьи Санжара и Маржоны",
 
     'details.tag':         "Детали торжества",
-    'details.title':       "Свадебное торжество",
+    'details.title':       "Свадебные Торжества",
     'details.date.label':  "Дата",
-    'details.date.val':    "29 Июля<br/>2026",
     'details.time.label':  "Время",
     'details.venue.label': "Место",
-    'details.venue.val':   '"Afsona"<br/>Банкетный зал',
 
-    'cd.label':  "До свадьбы осталось",
-    'cd.days':   "Дней",
-    'cd.hours':  "Часов",
-    'cd.mins':   "Минут",
-    'cd.secs':   "Секунд",
+    'event1.badge':        "КЫЗ БАЗМИ",
+    'event1.title':        "Банкетный зал «OQ SAROY»",
+    'event1.date':         "16 Октября 2026 · Пятница",
+    'event1.time':         "17:00",
+    'event1.venue':        "Банкетный зал «OQ SAROY»",
+    'event1.note':         "«Будем искренне рады видеть вас на этом вечере!»",
 
-    'story.tag':   "История нашей любви",
-    'story.title': "Путь, пройденный вместе",
-    'story.1':     "Первая встреча — первый взгляд, первая улыбка. Наши сердца узнали друг друга.",
-    'story.2':     "Он встал на колено и задал самый важный вопрос в своей жизни. Ответ — «Да!»",
-    'story.3':     "Сегодня — самый счастливый день. Мы начинаем одну жизнь на двоих.",
+    'event2.badge':        "НИКОХ БАЗМИ",
+    'event2.title':        "Банкетный зал «ANGREN LAND»",
+    'event2.date':         "18 Октября 2026 · Воскресенье",
+    'event2.time':         "17:00",
+    'event2.venue':        "Банкетный зал «ANGREN LAND»",
+    'event2.note':         "«С нетерпением ждем вас на нашем торжестве!»",
 
-    'map.tag':   "Место проведения",
-    'map.title': 'Банкетный зал "Afsona"',
-    'map.addr':  "г. Ангрен, Ташкентская область",
-    'map.name':  'Банкетный зал "Afsona"',
-    'map.city':  "Ангрен, Ташкент",
-    'map.btn':   "Показать на карте →",
+    'cd.label':            "До свадьбы осталось",
+    'cd.label.qiz':        "До Кыз базми осталось (16 Окт)",
+    'cd.label.nikoh':      "До Никох базми осталось (18 Окт)",
+    'cd.tab.qiz':          "Кыз Базми (16 Окт)",
+    'cd.tab.nikoh':        "Никох Базми (18 Окт)",
+    'cd.days':             "Дней",
+    'cd.hours':            "Часов",
+    'cd.mins':             "Минут",
+    'cd.secs':             "Секунд",
 
-    'rsvp.sub':       "Ваш ответ важен для нас",
-    'rsvp.deadline':  "Пожалуйста, ответьте до 15 Июля 2026",
-    'rsvp.name.ph':   "Ваше имя и фамилия",
-    'rsvp.phone.ph':  "Ваш номер телефона",
-    'rsvp.guests':    "Количество гостей",
-    'rsvp.attend.q':  "Вы придёте?",
-    'rsvp.yes':       "Да, с радостью приду",
-    'rsvp.no':        "К сожалению, не смогу",
-    'rsvp.msg.ph':    "Оставьте пожелание молодым...",
-    'rsvp.btn':       "Отправить",
+    'story.tag':           "История нашей любви",
+    'story.title':         "Путь, пройденный вместе",
+    'story.1':             "Первая встреча — первый взгляд, первая улыбка. Наши сердца узнали друг друга.",
+    'story.2':             "Он встал на колено и задал самый важный вопрос в своей жизни. Ответ — «Да!»",
+    'story.3':             "Сегодня — самый счастливый день. Санжар и Маржона начинают одну общую жизнь.",
 
-    'rsvp.ok.yes':    "Спасибо, {name}! Ответ получен. Будем рады вас видеть!",
-    'rsvp.ok.no':     "Спасибо, {name}! Ответ получен. Будьте здоровы!",
-    'rsvp.err.name':  "✦ Пожалуйста, введите ваше имя.",
-    'rsvp.err.phone': "✦ Пожалуйста, введите номер телефона.",
-    'rsvp.loading':   "✦ Отправляется...",
+    'map.tag':             "Места проведения",
+    'map.title':           "Адреса Банкетных Залов",
+    'map.desc':            "Банкетные залы для Кыз базми и Свадебного вечера",
+    'map.btn':             "Показать на карте →",
+    'map.venue1.name':     "Банкетный зал «OQ SAROY»",
+    'map.venue1.sub':      "г. Ангрен · 16 Октября · 17:00",
+    'map.venue2.name':     "Банкетный зал «ANGREN LAND»",
+    'map.venue2.sub':      "г. Ангрен · 18 Октября · 17:00",
 
-    'wishes.tag':   "Поздравления",
-    'wishes.title': "Пожелания гостей",
+    'rsvp.sub':            "Ваш ответ важен для нас",
+    'rsvp.deadline':       "Пожалуйста, ответьте до 10 Октября 2026",
+    'rsvp.name.ph':        "Ваше имя и фамилия",
+    'rsvp.phone.ph':       "Ваш номер телефона",
+    'rsvp.guests':         "Количество гостей",
+    'rsvp.attend.q':       "Какое торжество вы посетите?",
+    'rsvp.both':           "Оба торжества (16 и 18 Окт)",
+    'rsvp.nikoh':          "Никох базми (18 Окт)",
+    'rsvp.qiz':            "Кыз базми (16 Окт)",
+    'rsvp.no':             "К сожалению, не смогу",
+    'rsvp.msg.ph':         "Оставьте пожелание молодым...",
+    'rsvp.btn':            "Отправить",
 
-    'info.dress.title': "Дресс-код",
-    'info.dress.desc':  "Официальный наряд<br/><em style=\"font-size:13px;color:var(--rose)\">Белый, синий, розовый</em>",
-    'info.gift.title':  "To'yona",
-    'info.gift.desc':   "Лучший подарок — ваше присутствие. Денежный подарок также приветствуется.",
-    'info.park.title':  "Парковка",
-    'info.park.desc':   "Бесплатная парковка у банкетного зала. Предусмотрен услуга парковщика.",
+    'rsvp.ok.yes':         "Спасибо, {name}! Ответ получен. Будем рады вас видеть!",
+    'rsvp.ok.no':          "Спасибо, {name}! Ответ получен. Будьте здоровы!",
+    'rsvp.err.name':       "✦ Пожалуйста, введите ваше имя.",
+    'rsvp.err.phone':      "✦ Пожалуйста, введите номер телефона.",
+    'rsvp.loading':        "✦ Отправляется...",
 
-    'toyona.desc': "Если желаете, можете отправить подарок (туёна) на карту жениха.",
-    'toyona.card.label': "НОМЕР КАРТЫ",
-    'toyona.receiver.label': "ПОЛУЧАТЕЛЬ",
-    'toyona.receiver.name': "Азизбек",
-    'toyona.copy': "Скопировать номер",
+    'wishes.tag':          "Поздравления",
+    'wishes.title':        "Пожелания гостей",
 
-    'photo.tag':       "Воспоминания",
-    'photo.title':     "Поделитесь фото",
-    'photo.desc':      "Запечатлеем каждый прекрасный момент вместе. Отправляйте фото через Telegram-бот — сохраним их все.",
-    'photo.bot.title': "Отправьте фото через Telegram",
-    'photo.bot.desc':  "Нажмите кнопку ниже, перейдите в бот и отправьте ваши фотографии.",
-    'photo.btn':       "Перейти в бот",
+    'info.dress.title':    "Дресс-код",
+    'info.dress.desc':     "Официальный наряд<br/><em style=\"font-size:13px;color:var(--rose)\">Белый, синий, розовый</em>",
+    'info.gift.title':     "To'yona",
+    'info.gift.desc':      "Лучший подарок — ваше присутствие. Денежный подарок также приветствуется.",
+    'info.park.title':     "Парковка",
+    'info.park.desc':      "Бесплатная парковка у банкетного зала. Предусмотрен услуга парковщика.",
 
-    'footer.quote': "«И Он установил между вами любовь и милосердие.» — Коран 30:21",
+        'gallery.tag':         "Фотогалерея",
+    'gallery.title':       "Наши Счастливые Мгновения",
+    'gallery.desc':        "Прекрасная история любви, которую мы пишем вместе",
+    'gallery.cap1':        "Бесконечная Любовь",
+    'gallery.cap2':        "Праздничный Вечер",
+    'gallery.cap3':        "Вместе Навсегда",
+    'gallery.cap4':        "С Днём Свадьбы",
+    'gallery.hint':        "Нажмите для увеличения",
+
+    'footer.quote':        "«И Он установил между вами любовь и милосердие.» — Коран 30:21",
   },
 };
 
@@ -205,25 +243,52 @@ function setLang(lang) {
     const val = T[lang][key];
     if (val !== undefined) el.placeholder = val;
   });
+
+  // Update active countdown title
+  const cdTitleEl = document.getElementById('cd-title');
+  if (cdTitleEl) {
+    const labelKey = currentCdTarget === 'qiz' ? 'cd.label.qiz' : 'cd.label.nikoh';
+    cdTitleEl.textContent = T[lang][labelKey] || T[lang]['cd.label'];
+  }
+}
+
+// ─── COUNTDOWN TARGET SWITCH ─────────────────
+function setCountdownTarget(target) {
+  currentCdTarget = target;
+  document.querySelectorAll('.cd-tab').forEach(tab => {
+    tab.classList.toggle('active', tab.id === 'tab-' + target);
+  });
+  const labelKey = target === 'qiz' ? 'cd.label.qiz' : 'cd.label.nikoh';
+  const labelEl = document.getElementById('cd-title');
+  if (labelEl && T[currentLang] && T[currentLang][labelKey]) {
+    labelEl.textContent = T[currentLang][labelKey];
+  }
+  updateCountdown();
 }
 
 // ─── COUNTDOWN ───────────────────────────────
 function updateCountdown() {
-  const diff = WEDDING_DATE - new Date();
+  const targetDate = DATES[currentCdTarget] || DATES.nikoh;
+  const diff = targetDate - new Date();
   if (diff <= 0) {
-    ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id =>
-      document.getElementById(id).textContent = '00'
-    );
+    ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '00';
+    });
     return;
   }
   const days  = Math.floor(diff / 864e5);
   const hours = Math.floor((diff % 864e5) / 36e5);
   const mins  = Math.floor((diff % 36e5)  / 6e4);
   const secs  = Math.floor((diff % 6e4)   / 1e3);
-  document.getElementById('cd-days').textContent  = String(days).padStart(2,'0');
-  document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
-  document.getElementById('cd-mins').textContent  = String(mins).padStart(2,'0');
-  document.getElementById('cd-secs').textContent  = String(secs).padStart(2,'0');
+  const elD = document.getElementById('cd-days');
+  const elH = document.getElementById('cd-hours');
+  const elM = document.getElementById('cd-mins');
+  const elS = document.getElementById('cd-secs');
+  if (elD) elD.textContent = String(days).padStart(2,'0');
+  if (elH) elH.textContent = String(hours).padStart(2,'0');
+  if (elM) elM.textContent = String(mins).padStart(2,'0');
+  if (elS) elS.textContent = String(secs).padStart(2,'0');
 }
 setInterval(updateCountdown, 1000);
 updateCountdown();
@@ -283,21 +348,21 @@ function submitRSVP() {
 
   showStatus(statusEl, 'loading', T[lang]['rsvp.loading']);
 
-  const attend = checked ? checked.value : 'yes';
+  const attend = checked ? checked.value : 'both';
 
   setTimeout(() => {
-    const tmpl = attend === 'yes' ? T[lang]['rsvp.ok.yes'] : T[lang]['rsvp.ok.no'];
+    const tmpl = attend !== 'no' ? T[lang]['rsvp.ok.yes'] : T[lang]['rsvp.ok.no'];
     showStatus(statusEl, 'success', tmpl.replace('{name}', name));
 
-    if (attend === 'yes' && msg) addWishCard(name, `«${msg}»`);
+    if (attend !== 'no' && msg) addWishCard(name, `«${msg}»`);
 
     document.getElementById('rsvp-name').value  = '';
     document.getElementById('rsvp-phone').value = '';
     document.getElementById('rsvp-msg').value   = '';
     guestCount = 1;
     document.getElementById('guest-count').textContent = '1';
-    const yesRadio = document.querySelector('input[name="attendance"][value="yes"]');
-    if (yesRadio) yesRadio.checked = true;
+    const bothRadio = document.querySelector('input[name="attendance"][value="both"]');
+    if (bothRadio) bothRadio.checked = true;
   }, 1500);
 }
 
@@ -386,17 +451,23 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// ─── TO'YONA CARD ACTIONS ────────────────────
-function copyCardNumber() {
-  const numberText = document.getElementById('cc-number').textContent.replace(/\s+/g, '');
-  navigator.clipboard.writeText(numberText).then(() => {
-    const btnText = document.getElementById('copy-btn-text');
-    const originalText = btnText.textContent;
-    btnText.textContent = currentLang === 'uz' ? "Nusxalandi!" : "Скопировано!";
-    setTimeout(() => {
-      btnText.textContent = originalText;
-    }, 2000);
-  });
+// ─── LIGHTBOX MODAL ─────────────────────────
+function openLightbox(src) {
+  const modal = document.getElementById('lightbox-modal');
+  const img   = document.getElementById('lightbox-img');
+  if (modal && img) {
+    img.src = src;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeLightbox() {
+  const modal = document.getElementById('lightbox-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 }
 
 // ─── INIT & AUTOPLAY ─────────────────────────
